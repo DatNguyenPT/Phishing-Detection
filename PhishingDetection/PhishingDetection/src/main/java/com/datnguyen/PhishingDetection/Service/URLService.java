@@ -2,6 +2,7 @@ package com.datnguyen.PhishingDetection.Service;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,22 +24,16 @@ public class URLService {
     }
 
     public List<URLEntity> list(){
-      return urlRepo.getAll();
+        return urlRepo.getAll();
     }
-    public String analystFromDataset(String urlToFind) {
+    public HashMap<String, String>analystFromDataset(String urlToFind) {
         URLEntity analystURL = urlRepo.findURL(urlToFind);
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = "";
-        try{
-            if (urlRepo.URLExisted(analystURL.getUrl())) {
-                json = ow.writeValueAsString(analystURL);
-            }
-        }catch (NullPointerException e){
-            Error.URLNotFound();
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        return json;
+        HashMap<String, String>result = new HashMap<>();
+        result.put("URL", analystURL.getUrl());
+        result.put("LENGTH",analystURL.getLengthUrl().toString());
+        result.put("IP", analystURL.getIp().toString());
+        result.put("STATUS", analystURL.getStatus());
+        return result;
     }
 
     public boolean existedCheck(String urlToFind){

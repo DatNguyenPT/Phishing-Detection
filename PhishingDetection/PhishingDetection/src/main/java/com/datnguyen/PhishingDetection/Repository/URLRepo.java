@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public class URLRepo implements JPARepo {
 
-    private static URL url;
+    private URL url;
 
     public URLRepo(URL url){
         this.url = url;
@@ -70,5 +70,10 @@ public class URLRepo implements JPARepo {
             }
         }
         return "No status yet";
+    }
+
+    @Override
+    public void addURL(URLEntity URL){
+        url.getList().add(URL);
     }
 }

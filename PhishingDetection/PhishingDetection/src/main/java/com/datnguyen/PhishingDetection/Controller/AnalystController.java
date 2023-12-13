@@ -2,7 +2,9 @@ package com.datnguyen.PhishingDetection.Controller;
 
 import com.datnguyen.PhishingDetection.Service.URLService;
 import com.datnguyen.PhishingDetection.Service.WebCrawler;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -16,9 +18,8 @@ public class AnalystController {
     }
 
     @PostMapping(value ="/analystfromdataset")
-    public ResponseEntity<String> analyst(@RequestParam String URL){
-        String jsonData = service.analystFromDataset(URL);
-        return ResponseEntity.ok(jsonData);
+    public ResponseEntity<?> analyst(@RequestParam String URL){
+        return new ResponseEntity<>(service.analystFromDataset(URL), HttpStatus.OK);
     }
 
     @PostMapping(value = "/crawlHTML")
